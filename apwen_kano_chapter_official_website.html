@@ -1,0 +1,1725 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>APWEN Kano Chapter | Association of Professional Women Engineers of Nigeria</title>
+    
+    <!-- Google Fonts: Inter & Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        apwen: {
+                            magenta: '#91146b',
+                            plum: '#5e0a45',
+                            magentaLight: '#fdf2f8',
+                            gold: '#d97706',
+                            goldLight: '#fbbf24',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        html, body {
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+            background-color: #f8fafc;
+            overflow-x: hidden;
+        }
+
+        /* Full-length view transitions with directional glide & crossfade */
+        .page-view {
+            display: none;
+            opacity: 0;
+            transform: translateY(18px);
+            transition: opacity 0.45s cubic-bezier(0.22, 1, 0.36, 1), transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .page-view.active-view {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .page-view.glide-in-right {
+            animation: glideFromRight 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+
+        .page-view.glide-in-left {
+            animation: glideFromLeft 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+
+        @keyframes glideFromRight {
+            0% {
+                opacity: 0;
+                transform: translateX(42px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes glideFromLeft {
+            0% {
+                opacity: 0;
+                transform: translateX(-42px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Sliding Navigation Pill */
+        #nav-pill {
+            transition: transform 0.38s cubic-bezier(0.22, 1, 0.36, 1), width 0.38s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        /* Hero Slideshow Smooth Fade & Ken Burns Zoom */
+        .hero-slide {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            transform: scale(1.04);
+            transition: opacity 0.9s ease-in-out, transform 1.4s cubic-bezier(0.22, 1, 0.36, 1);
+            pointer-events: none;
+        }
+        .hero-slide.active {
+            opacity: 1;
+            transform: scale(1);
+            pointer-events: auto;
+            z-index: 2;
+        }
+
+        /* Subtle Engineering Blueprint Dot Pattern */
+        .blueprint-bg {
+            background-image: radial-gradient(rgba(145, 20, 107, 0.12) 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="flex flex-col text-slate-800 font-sans antialiased selection:bg-apwen-magenta selection:text-white">
+
+    <!-- =====================================================================
+         1. STICKY TOP HEADER WITH APWEN LOGO & SLIDING PILL NAVIGATION
+         ===================================================================== -->
+    <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                
+                <!-- Official APWEN Circular Logo & Kano Chapter Branding -->
+                <button onclick="navigateTo('home')" class="flex items-center space-x-3.5 text-left group focus:outline-none">
+                    <div class="w-12 h-12 sm:w-14 sm:h-14 shrink-0 rounded-full shadow-md group-hover:scale-105 transition-transform">
+                        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" class="w-full h-full rounded-full" role="img" aria-label="APWEN Official Logo">
+                            <circle cx="100" cy="100" r="98" fill="#91146b"/>
+                            <rect x="34" y="68" width="132" height="64" rx="10" fill="#ffffff"/>
+                            <path d="M 42 82 Q 42 74 50 74 L 91 74 L 100 66 L 109 74 L 150 74 Q 158 74 158 82 L 158 118 Q 158 126 150 126 L 50 126 Q 42 126 42 118 Z" fill="#91146b"/>
+                            <polygon points="100,66 93,108 107,108" fill="#ffffff"/>
+                            <text x="100" y="117" font-family="Georgia, 'Times New Roman', serif" font-weight="900" font-size="31" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">APWEN</text>
+                        </svg>
+                    </div>
+                    <div>
+                        <span class="font-heading font-extrabold text-xl sm:text-2xl tracking-tight text-apwen-magenta block leading-none">APWEN KANO</span>
+                        <span class="text-[11px] sm:text-xs font-semibold text-slate-500 tracking-wider uppercase block mt-1">Kano State Chapter • NSE Division</span>
+                    </div>
+                </button>
+
+                <!-- Desktop Navigation Bar with Animated Sliding Indicator Pill -->
+                <nav id="desktop-nav" class="hidden lg:flex items-center relative bg-slate-100 p-1.5 rounded-2xl border border-slate-200">
+                    <div id="nav-pill" class="absolute top-1.5 bottom-1.5 left-1.5 rounded-xl bg-apwen-magenta shadow-md pointer-events-none"></div>
+
+                    <button data-tab="home" onclick="navigateTo('home')" class="nav-btn relative z-10 px-4 py-2 rounded-xl text-sm font-bold transition-colors duration-200 text-white">Home</button>
+                    <button data-tab="leadership" onclick="navigateTo('leadership')" class="nav-btn relative z-10 px-4 py-2 rounded-xl text-sm font-bold transition-colors duration-200 text-slate-700 hover:text-apwen-magenta">Leadership</button>
+                    <button data-tab="aims" onclick="navigateTo('aims')" class="nav-btn relative z-10 px-4 py-2 rounded-xl text-sm font-bold transition-colors duration-200 text-slate-700 hover:text-apwen-magenta">Aims & Mandate</button>
+                    <button data-tab="programs" onclick="navigateTo('programs')" class="nav-btn relative z-10 px-4 py-2 rounded-xl text-sm font-bold transition-colors duration-200 text-slate-700 hover:text-apwen-magenta">Programs</button>
+                    <button data-tab="conduct" onclick="navigateTo('conduct')" class="nav-btn relative z-10 px-4 py-2 rounded-xl text-sm font-bold transition-colors duration-200 text-slate-700 hover:text-apwen-magenta">Conduct & Ethics</button>
+                    <button data-tab="contact" onclick="navigateTo('contact')" class="nav-btn relative z-10 px-4 py-2 rounded-xl text-sm font-bold transition-colors duration-200 text-slate-700 hover:text-apwen-magenta">Contact</button>
+                </nav>
+
+                <!-- Right Header Quick CTA -->
+                <div class="hidden sm:flex items-center space-x-3">
+                    <button onclick="navigateTo('contact')" class="px-4 py-2.5 rounded-xl bg-apwen-gold hover:bg-amber-600 text-white text-xs font-bold uppercase tracking-wider shadow transition">
+                        Join Chapter
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile & Tablet Responsive Horizontal Tab Bar -->
+        <div class="lg:hidden flex items-center px-3 py-2 bg-slate-50 border-t border-slate-200 overflow-x-auto no-scrollbar gap-1.5">
+            <button data-mtab="home" onclick="navigateTo('home')" class="m-nav-btn py-2 px-3.5 rounded-xl text-xs font-bold whitespace-nowrap bg-apwen-magenta text-white transition">Home</button>
+            <button data-mtab="leadership" onclick="navigateTo('leadership')" class="m-nav-btn py-2 px-3.5 rounded-xl text-xs font-bold whitespace-nowrap text-slate-600 bg-white border border-slate-200 transition">Leadership</button>
+            <button data-mtab="aims" onclick="navigateTo('aims')" class="m-nav-btn py-2 px-3.5 rounded-xl text-xs font-bold whitespace-nowrap text-slate-600 bg-white border border-slate-200 transition">Aims & Mandate</button>
+            <button data-mtab="programs" onclick="navigateTo('programs')" class="m-nav-btn py-2 px-3.5 rounded-xl text-xs font-bold whitespace-nowrap text-slate-600 bg-white border border-slate-200 transition">Programs</button>
+            <button data-mtab="conduct" onclick="navigateTo('conduct')" class="m-nav-btn py-2 px-3.5 rounded-xl text-xs font-bold whitespace-nowrap text-slate-600 bg-white border border-slate-200 transition">Conduct & Ethics</button>
+            <button data-mtab="contact" onclick="navigateTo('contact')" class="m-nav-btn py-2 px-3.5 rounded-xl text-xs font-bold whitespace-nowrap text-slate-600 bg-white border border-slate-200 transition">Contact</button>
+        </div>
+    </header>
+
+    <!-- =====================================================================
+         2. MAIN EXPANSIVE CONTENT STAGE
+         ===================================================================== -->
+    <main class="flex-1 w-full">
+
+        <!-- *****************************************************************
+             VIEW 1: HOME (SLIDESHOW + IMPACT STATS + DIVISIONS + EVENTS)
+             ***************************************************************** -->
+        <div id="view-home" class="page-view active-view">
+            
+            <!-- Full-Bleed Auto-Playing Hero Slideshow (4 Slides) -->
+            <section class="relative w-full h-[560px] sm:h-[640px] lg:h-[700px] bg-apwen-plum overflow-hidden">
+                
+                <!-- Slide 1: STEM Outreach in Kano -->
+                <div class="hero-slide active">
+                    <img src="https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?auto=format&fit=crop&w=1600&q=80"
+                         onerror="this.src='https://placehold.co/1600x900/91146b/FFFFFF?text=APWEN+Kano+STEM+Outreach'"
+                         alt="Women Engineers Leading STEM Outreach in Kano" class="w-full h-full object-cover object-center">
+                    <div class="absolute inset-0 bg-gradient-to-r from-[#3b052b]/95 via-[#91146b]/80 to-[#5e0a45]/35"></div>
+                    <div class="absolute inset-0 flex items-center">
+                        <div class="max-w-7xl mx-auto px-5 sm:px-8 w-full">
+                            <div class="max-w-3xl text-white space-y-5">
+                                <div class="inline-flex items-center space-x-2.5 px-4 py-1.5 rounded-full bg-white/15 border border-white/25 backdrop-blur-sm">
+                                    <span class="w-2.5 h-2.5 rounded-full bg-apwen-goldLight animate-pulse"></span>
+                                    <span class="text-xs font-bold uppercase tracking-wider text-apwen-goldLight">Association of Professional Women Engineers of Nigeria</span>
+                                </div>
+                                <h1 class="font-heading text-3xl sm:text-5xl lg:text-6xl font-extrabold leading-tight">
+                                    Pioneering Engineering Excellence & Girl-Child STEM in Kano
+                                </h1>
+                                <p class="text-base sm:text-xl text-pink-100 leading-relaxed max-w-2xl">
+                                    Uniting female engineers across Kano State to champion sustainable public infrastructure, mentor young girls into STEM careers, and elevate professional standards.
+                                </p>
+                                <div class="pt-3 flex flex-wrap gap-4">
+                                    <button onclick="navigateTo('leadership')" class="px-7 py-4 rounded-2xl bg-apwen-gold hover:bg-amber-600 text-white font-bold shadow-xl transition transform hover:-translate-y-0.5 flex items-center">
+                                        <span>Meet Chapter Leadership</span>
+                                        <i class="fa-solid fa-arrow-right ml-2.5"></i>
+                                    </button>
+                                    <button onclick="navigateTo('programs')" class="px-7 py-4 rounded-2xl bg-white/15 hover:bg-white/25 backdrop-blur-md text-white border border-white/30 font-bold transition">
+                                        Explore Our Programs
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 2: Infrastructure & Civil Engineering -->
+                <div class="hero-slide">
+                    <img src="https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?auto=format&fit=crop&w=1600&q=80"
+                         onerror="this.src='https://placehold.co/1600x900/5e0a45/FFFFFF?text=Infrastructure+Development+Kano'"
+                         alt="Infrastructure and Civil Engineering in Kano State" class="w-full h-full object-cover object-center">
+                    <div class="absolute inset-0 bg-gradient-to-r from-[#3b052b]/95 via-[#91146b]/80 to-[#5e0a45]/35"></div>
+                    <div class="absolute inset-0 flex items-center">
+                        <div class="max-w-7xl mx-auto px-5 sm:px-8 w-full">
+                            <div class="max-w-3xl text-white space-y-5">
+                                <span class="inline-flex items-center px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider bg-white/15 text-apwen-goldLight border border-white/25 backdrop-blur-sm">
+                                    <i class="fa-solid fa-helmet-safety mr-2"></i> Infrastructure & Public Works Advocacy
+                                </span>
+                                <h2 class="font-heading text-3xl sm:text-5xl lg:text-6xl font-extrabold leading-tight">
+                                    Building Resilient Infrastructure Across Northern Nigeria
+                                </h2>
+                                <p class="text-base sm:text-xl text-pink-100 leading-relaxed max-w-2xl">
+                                    From road networks and water supply systems to renewable energy grids, APWEN Kano members deliver high-impact technical solutions across public and private sectors.
+                                </p>
+                                <div class="pt-3 flex flex-wrap gap-4">
+                                    <button onclick="navigateTo('aims')" class="px-7 py-4 rounded-2xl bg-apwen-gold hover:bg-amber-600 text-white font-bold shadow-xl transition flex items-center">
+                                        <span>Our Constitutional Mandate</span>
+                                        <i class="fa-solid fa-arrow-right ml-2.5"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 3: Mentorship & Leadership -->
+                <div class="hero-slide">
+                    <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=1600&q=80"
+                         onerror="this.src='https://placehold.co/1600x900/91146b/FBBF24?text=Mentorship+and+Leadership'"
+                         alt="Professional Mentorship and Career Growth" class="w-full h-full object-cover object-center">
+                    <div class="absolute inset-0 bg-gradient-to-r from-[#3b052b]/95 via-[#91146b]/80 to-[#5e0a45]/35"></div>
+                    <div class="absolute inset-0 flex items-center">
+                        <div class="max-w-7xl mx-auto px-5 sm:px-8 w-full">
+                            <div class="max-w-3xl text-white space-y-5">
+                                <span class="inline-flex items-center px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider bg-white/15 text-apwen-goldLight border border-white/25 backdrop-blur-sm">
+                                    <i class="fa-solid fa-graduation-cap mr-2"></i> Town & Gown • COREN & NSE Certification
+                                </span>
+                                <h2 class="font-heading text-3xl sm:text-5xl lg:text-6xl font-extrabold leading-tight">
+                                    Lifting Every Sister Engineer as We Climb
+                                </h2>
+                                <p class="text-base sm:text-xl text-pink-100 leading-relaxed max-w-2xl">
+                                    Bridging university lecture halls at BUK and KUST Wudil with real industry practice while preparing young female graduates for COREN registration.
+                                </p>
+                                <div class="pt-3 flex flex-wrap gap-4">
+                                    <button onclick="navigateTo('conduct')" class="px-7 py-4 rounded-2xl bg-apwen-gold hover:bg-amber-600 text-white font-bold shadow-xl transition flex items-center">
+                                        <span>Way of Conduct & Ethics</span>
+                                        <i class="fa-solid fa-arrow-right ml-2.5"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 4: Annual National & Chapter Conference -->
+                <div class="hero-slide">
+                    <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=1600&q=80"
+                         onerror="this.src='https://placehold.co/1600x900/5e0a45/FBBF24?text=Annual+Engineering+Conference'"
+                         alt="APWEN Annual Conference and Technical Workshops" class="w-full h-full object-cover object-center">
+                    <div class="absolute inset-0 bg-gradient-to-r from-[#3b052b]/95 via-[#91146b]/80 to-[#5e0a45]/35"></div>
+                    <div class="absolute inset-0 flex items-center">
+                        <div class="max-w-7xl mx-auto px-5 sm:px-8 w-full">
+                            <div class="max-w-3xl text-white space-y-5">
+                                <span class="inline-flex items-center px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider bg-white/15 text-apwen-goldLight border border-white/25 backdrop-blur-sm">
+                                    <i class="fa-solid fa-calendar-check mr-2"></i> Annual General Meeting & Technical Workshops
+                                </span>
+                                <h2 class="font-heading text-3xl sm:text-5xl lg:text-6xl font-extrabold leading-tight">
+                                    Innovating for Sustainable Industrial Growth in Kano
+                                </h2>
+                                <p class="text-base sm:text-xl text-pink-100 leading-relaxed max-w-2xl">
+                                    Join fellow Fellows, Corporate Members, Graduate Engineers, and Students for policy roundtables, CPD workshops, and STEM awards.
+                                </p>
+                                <div class="pt-3 flex flex-wrap gap-4">
+                                    <button onclick="navigateTo('contact')" class="px-7 py-4 rounded-2xl bg-apwen-gold hover:bg-amber-600 text-white font-bold shadow-xl transition flex items-center">
+                                        <span>Register or Contact Secretariat</span>
+                                        <i class="fa-solid fa-arrow-right ml-2.5"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slideshow Controls & Caption Indicators -->
+                <div class="absolute bottom-6 left-0 right-0 z-20 max-w-7xl mx-auto px-5 sm:px-8 flex items-center justify-between">
+                    <div class="flex items-center space-x-2.5">
+                        <button onclick="goToHeroSlide(0)" aria-label="Slide 1" class="hero-dot w-10 h-2.5 rounded-full bg-apwen-goldLight transition-all"></button>
+                        <button onclick="goToHeroSlide(1)" aria-label="Slide 2" class="hero-dot w-2.5 h-2.5 rounded-full bg-white/45 hover:bg-white transition-all"></button>
+                        <button onclick="goToHeroSlide(2)" aria-label="Slide 3" class="hero-dot w-2.5 h-2.5 rounded-full bg-white/45 hover:bg-white transition-all"></button>
+                        <button onclick="goToHeroSlide(3)" aria-label="Slide 4" class="hero-dot w-2.5 h-2.5 rounded-full bg-white/45 hover:bg-white transition-all"></button>
+                    </div>
+
+                    <div class="flex items-center space-x-3">
+                        <button onclick="stepHeroSlide(-1)" aria-label="Previous Slide" class="w-11 h-11 rounded-full bg-black/35 hover:bg-apwen-gold text-white border border-white/25 backdrop-blur-sm flex items-center justify-center transition">
+                            <i class="fa-solid fa-chevron-left"></i>
+                        </button>
+                        <button onclick="stepHeroSlide(1)" aria-label="Next Slide" class="w-11 h-11 rounded-full bg-black/35 hover:bg-apwen-gold text-white border border-white/25 backdrop-blur-sm flex items-center justify-center transition">
+                            <i class="fa-solid fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Impact Statistics Bar -->
+            <section class="bg-apwen-plum text-white border-t border-white/10">
+                <div class="max-w-7xl mx-auto px-5 sm:px-8 py-12 grid grid-cols-2 lg:grid-cols-4 gap-8 text-center">
+                    <div class="p-4 rounded-2xl bg-white/5 border border-white/10">
+                        <span class="font-heading text-3xl sm:text-5xl font-extrabold text-apwen-goldLight block">450+</span>
+                        <span class="text-xs sm:text-sm font-semibold uppercase tracking-wider text-pink-100 mt-2 block">Registered Female Engineers in Kano</span>
+                    </div>
+                    <div class="p-4 rounded-2xl bg-white/5 border border-white/10">
+                        <span class="font-heading text-3xl sm:text-5xl font-extrabold text-apwen-goldLight block">3,200+</span>
+                        <span class="text-xs sm:text-sm font-semibold uppercase tracking-wider text-pink-100 mt-2 block">Girls Reached via STEM Outreach</span>
+                    </div>
+                    <div class="p-4 rounded-2xl bg-white/5 border border-white/10">
+                        <span class="font-heading text-3xl sm:text-5xl font-extrabold text-apwen-goldLight block">45+</span>
+                        <span class="text-xs sm:text-sm font-semibold uppercase tracking-wider text-pink-100 mt-2 block">Kano Secondary Schools Visited</span>
+                    </div>
+                    <div class="p-4 rounded-2xl bg-white/5 border border-white/10">
+                        <span class="font-heading text-3xl sm:text-5xl font-extrabold text-apwen-goldLight block">18+</span>
+                        <span class="text-xs sm:text-sm font-semibold uppercase tracking-wider text-pink-100 mt-2 block">Annual Technical Workshops</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- About APWEN Kano & Engineering Divisions Grid -->
+            <section class="py-16 sm:py-20 px-5 sm:px-8 max-w-7xl mx-auto space-y-14">
+                <div class="grid lg:grid-cols-12 gap-10 items-center">
+                    <div class="lg:col-span-7 space-y-5">
+                        <span class="inline-flex items-center px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider bg-apwen-magenta/10 text-apwen-magenta">
+                            Who We Are
+                        </span>
+                        <h2 class="font-heading text-3xl sm:text-4xl font-extrabold text-slate-900 leading-tight">
+                            The Voice of Women in Engineering Across Kano State
+                        </h2>
+                        <p class="text-slate-600 text-base sm:text-lg leading-relaxed">
+                            Founded nationally in 1982 and inaugurated as a proud division of the <strong>Nigerian Society of Engineers (NSE)</strong>, the <strong>APWEN Kano Chapter</strong> brings together practicing female engineers across ministries, manufacturing industries, telecommunications, construction firms, and universities.
+                        </p>
+                        <p class="text-slate-600 text-base leading-relaxed">
+                            Under the leadership of <strong id="home-leader-inline" class="text-apwen-magenta">Engr. Safiya Aliyu Mahmoud, MNSE</strong>, our chapter actively bridges the gender gap in technical fields while contributing professional expertise to Kano State's infrastructure development.
+                        </p>
+                        <div class="pt-2 flex flex-wrap gap-3">
+                            <button onclick="navigateTo('leadership')" class="px-6 py-3 rounded-xl bg-apwen-magenta hover:bg-apwen-plum text-white text-sm font-bold shadow transition">
+                                Read Chairman's Welcome Charge
+                            </button>
+                            <button onclick="navigateTo('aims')" class="px-6 py-3 rounded-xl bg-white border border-slate-300 hover:border-apwen-magenta text-slate-800 text-sm font-bold transition">
+                                View Membership Categories
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Official Chapter Quick Summary Card -->
+                    <div class="lg:col-span-5 bg-white rounded-3xl border border-slate-200 shadow-xl p-7 sm:p-8 space-y-5">
+                        <div class="flex items-center space-x-4 pb-4 border-b border-slate-100">
+                            <div class="w-16 h-16 rounded-full shrink-0 shadow">
+                                <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" class="w-full h-full rounded-full">
+                                    <circle cx="100" cy="100" r="98" fill="#91146b"/>
+                                    <rect x="34" y="68" width="132" height="64" rx="10" fill="#ffffff"/>
+                                    <path d="M 42 82 Q 42 74 50 74 L 91 74 L 100 66 L 109 74 L 150 74 Q 158 74 158 82 L 158 118 Q 158 126 150 126 L 50 126 Q 42 126 42 118 Z" fill="#91146b"/>
+                                    <polygon points="100,66 93,108 107,108" fill="#ffffff"/>
+                                    <text x="100" y="117" font-family="Georgia, 'Times New Roman', serif" font-weight="900" font-size="31" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">APWEN</text>
+                                </svg>
+                            </div>
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-apwen-gold">Chapter Secretariat</span>
+                                <h3 class="font-heading text-xl font-extrabold text-slate-900">APWEN Kano State</h3>
+                                <p class="text-xs text-slate-500">COREN & NSE Accredited Division</p>
+                            </div>
+                        </div>
+                        <div class="space-y-3 text-sm">
+                            <div class="flex items-start space-x-3">
+                                <i class="fa-solid fa-user-tie text-apwen-magenta mt-1"></i>
+                                <div>
+                                    <span class="text-xs text-slate-400 block">Chapter Chairman</span>
+                                    <strong id="home-card-leader" class="text-slate-900">Engr. Safiya Aliyu Mahmoud, MNSE</strong>
+                                </div>
+                            </div>
+                            <div class="flex items-start space-x-3">
+                                <i class="fa-solid fa-location-dot text-apwen-magenta mt-1"></i>
+                                <div>
+                                    <span class="text-xs text-slate-400 block">Official Address</span>
+                                    <span id="home-card-address" class="text-slate-700 font-medium">Kano State Ministry of Works and Infrastructure Development, No. 1 Commissioner Road, GRA, Kano</span>
+                                </div>
+                            </div>
+                            <div class="flex items-start space-x-3">
+                                <i class="fa-solid fa-envelope text-apwen-magenta mt-1"></i>
+                                <div>
+                                    <span class="text-xs text-slate-400 block">Secretariat Email</span>
+                                    <a id="home-card-email" href="mailto:kanoapwen@gmail.com" class="text-apwen-magenta font-bold hover:underline">kanoapwen@gmail.com</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Engineering Disciplines & Divisions Grid -->
+                <div class="space-y-8">
+                    <div class="text-center max-w-3xl mx-auto space-y-3">
+                        <span class="inline-flex items-center px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-amber-100 text-amber-800">
+                            Multidisciplinary Expertise
+                        </span>
+                        <h2 class="font-heading text-2xl sm:text-4xl font-extrabold text-slate-900">
+                            Engineering Divisions Represented in Kano
+                        </h2>
+                        <p class="text-slate-600 text-sm sm:text-base">
+                            Our members practice across every core engineering discipline driving industrial, urban, and agricultural transformation in Kano State.
+                        </p>
+                    </div>
+
+                    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <div class="p-6 rounded-3xl bg-white border border-slate-200 shadow-sm hover:shadow-md hover:border-apwen-magenta/40 transition">
+                            <div class="w-12 h-12 rounded-2xl bg-apwen-magenta/10 text-apwen-magenta flex items-center justify-center text-xl mb-4">
+                                <i class="fa-solid fa-road-bridge"></i>
+                            </div>
+                            <h3 class="font-heading font-bold text-lg text-slate-900 mb-2">Civil & Structural Engineering</h3>
+                            <p class="text-sm text-slate-600 leading-relaxed">Highway design, bridges, public buildings, water resources, urban drainage, and structural integrity supervision across Kano.</p>
+                        </div>
+
+                        <div class="p-6 rounded-3xl bg-white border border-slate-200 shadow-sm hover:shadow-md hover:border-apwen-magenta/40 transition">
+                            <div class="w-12 h-12 rounded-2xl bg-amber-100 text-apwen-gold flex items-center justify-center text-xl mb-4">
+                                <i class="fa-solid fa-bolt"></i>
+                            </div>
+                            <h3 class="font-heading font-bold text-lg text-slate-900 mb-2">Electrical & Electronics</h3>
+                            <p class="text-sm text-slate-600 leading-relaxed">Power distribution, solar mini-grids, industrial instrumentation, telecommunications, and renewable energy systems.</p>
+                        </div>
+
+                        <div class="p-6 rounded-3xl bg-white border border-slate-200 shadow-sm hover:shadow-md hover:border-apwen-magenta/40 transition">
+                            <div class="w-12 h-12 rounded-2xl bg-apwen-magenta/10 text-apwen-magenta flex items-center justify-center text-xl mb-4">
+                                <i class="fa-solid fa-gears"></i>
+                            </div>
+                            <h3 class="font-heading font-bold text-lg text-slate-900 mb-2">Mechanical & Manufacturing</h3>
+                            <p class="text-sm text-slate-600 leading-relaxed">Plant maintenance, HVAC systems, industrial machinery, automotive engineering, and production line optimization.</p>
+                        </div>
+
+                        <div class="p-6 rounded-3xl bg-white border border-slate-200 shadow-sm hover:shadow-md hover:border-apwen-magenta/40 transition">
+                            <div class="w-12 h-12 rounded-2xl bg-amber-100 text-apwen-gold flex items-center justify-center text-xl mb-4">
+                                <i class="fa-solid fa-flask"></i>
+                            </div>
+                            <h3 class="font-heading font-bold text-lg text-slate-900 mb-2">Chemical & Process Engineering</h3>
+                            <p class="text-sm text-slate-600 leading-relaxed">Pharmaceuticals, tanneries, textile processing, food production, water treatment, and industrial safety compliance.</p>
+                        </div>
+
+                        <div class="p-6 rounded-3xl bg-white border border-slate-200 shadow-sm hover:shadow-md hover:border-apwen-magenta/40 transition">
+                            <div class="w-12 h-12 rounded-2xl bg-apwen-magenta/10 text-apwen-magenta flex items-center justify-center text-xl mb-4">
+                                <i class="fa-solid fa-laptop-code"></i>
+                            </div>
+                            <h3 class="font-heading font-bold text-lg text-slate-900 mb-2">Computer & ICT Engineering</h3>
+                            <p class="text-sm text-slate-600 leading-relaxed">Software systems, network infrastructure, data analytics, smart city automation, and digital literacy mentorship.</p>
+                        </div>
+
+                        <div class="p-6 rounded-3xl bg-white border border-slate-200 shadow-sm hover:shadow-md hover:border-apwen-magenta/40 transition">
+                            <div class="w-12 h-12 rounded-2xl bg-amber-100 text-apwen-gold flex items-center justify-center text-xl mb-4">
+                                <i class="fa-solid fa-tractor"></i>
+                            </div>
+                            <h3 class="font-heading font-bold text-lg text-slate-900 mb-2">Agricultural & Water Resources</h3>
+                            <p class="text-sm text-slate-600 leading-relaxed">Irrigation engineering, post-harvest agro-processing machinery, dam management, and climate-resilient farming.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Upcoming Kano Chapter Events & Calendar (Dynamically Editable) -->
+                <div class="bg-white rounded-3xl border border-slate-200 shadow-lg p-7 sm:p-10 space-y-6">
+                    <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-slate-100 pb-5">
+                        <div>
+                            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-apwen-magenta/10 text-apwen-magenta">
+                                Chapter Calendar
+                            </span>
+                            <h2 class="font-heading text-2xl sm:text-3xl font-extrabold text-slate-900 mt-2">
+                                Upcoming APWEN Kano Events & Activities
+                            </h2>
+                        </div>
+                        <button onclick="openAdminModal()" class="self-start sm:self-auto px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition">
+                            <i class="fa-solid fa-calendar-plus mr-1.5 text-apwen-magenta"></i> Add / Edit Events
+                        </button>
+                    </div>
+
+                    <div id="events-grid" class="grid md:grid-cols-3 gap-6">
+                        <!-- Rendered by JS -->
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- *****************************************************************
+             VIEW 2: LEADERSHIP (CHAIRMAN SPOTLIGHT + CHARGE + EXCO STRUCTURE)
+             ***************************************************************** -->
+        <div id="view-leadership" class="page-view blueprint-bg">
+            <section class="py-12 sm:py-16 px-5 sm:px-8 max-w-7xl mx-auto space-y-12">
+                
+                <!-- Chairman Spotlight Card -->
+                <div class="bg-white rounded-3xl border border-slate-200 shadow-xl overflow-hidden">
+                    <div class="bg-gradient-to-r from-apwen-magenta via-apwen-plum to-apwen-magenta px-6 sm:px-10 py-8 text-white flex flex-wrap items-center justify-between gap-4">
+                        <div>
+                            <span class="text-xs font-bold uppercase tracking-widest text-apwen-goldLight block">Executive Leadership & Secretariat</span>
+                            <h1 class="font-heading text-2xl sm:text-4xl font-extrabold mt-1">APWEN Kano Chapter Leadership</h1>
+                        </div>
+                        <span class="px-4 py-2 rounded-full text-xs font-bold bg-white/15 border border-white/25">
+                            Nigerian Society of Engineers (NSE) Division
+                        </span>
+                    </div>
+
+                    <div class="p-6 sm:p-10 grid lg:grid-cols-12 gap-8 items-start">
+                        <!-- Emblem & Official Seal -->
+                        <div class="lg:col-span-4 flex flex-col items-center text-center p-7 rounded-3xl bg-apwen-magentaLight/70 border border-apwen-magenta/15">
+                            <div class="w-36 h-36 rounded-full shadow-xl mb-5 ring-4 ring-white">
+                                <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" class="w-full h-full rounded-full">
+                                    <circle cx="100" cy="100" r="98" fill="#91146b"/>
+                                    <rect x="34" y="68" width="132" height="64" rx="10" fill="#ffffff"/>
+                                    <path d="M 42 82 Q 42 74 50 74 L 91 74 L 100 66 L 109 74 L 150 74 Q 158 74 158 82 L 158 118 Q 158 126 150 126 L 50 126 Q 42 126 42 118 Z" fill="#91146b"/>
+                                    <polygon points="100,66 93,108 107,108" fill="#ffffff"/>
+                                    <text x="100" y="117" font-family="Georgia, 'Times New Roman', serif" font-weight="900" font-size="31" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">APWEN</text>
+                                </svg>
+                            </div>
+                            <span class="px-4 py-1.5 rounded-full text-xs font-bold bg-apwen-magenta text-white">Official Kano Secretariat</span>
+                            <p class="text-xs text-slate-500 mt-3 leading-relaxed">
+                                Serving Female Engineers across Kano Municipal, Fagge, Nassarawa, Tarauni, Gwale, and all 44 LGAs of Kano State.
+                            </p>
+                            <button onclick="openAdminModal()" class="mt-5 w-full py-2.5 px-4 rounded-xl bg-white border border-apwen-magenta/30 hover:bg-apwen-magenta hover:text-white text-apwen-magenta text-xs font-bold transition">
+                                <i class="fa-solid fa-pen-to-square mr-1.5"></i> Update Leader Name / Info
+                            </button>
+                        </div>
+
+                        <!-- Leader Profile & Contact Details -->
+                        <div class="lg:col-span-8 space-y-6">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-apwen-gold">Chapter Chairman</span>
+                                <h2 id="display-leader-name" class="font-heading text-3xl sm:text-4xl font-extrabold text-slate-900 mt-1">
+                                    Engr. Safiya Aliyu Mahmoud, MNSE
+                                </h2>
+                                <p id="display-leader-title" class="text-lg font-bold text-apwen-magenta mt-1">
+                                    Chairman, APWEN Kano Chapter
+                                </p>
+                            </div>
+
+                            <!-- Chairman's Welcome Charge -->
+                            <div class="p-6 rounded-2xl bg-slate-50 border-l-4 border-apwen-gold space-y-2">
+                                <h3 class="font-heading font-bold text-sm uppercase tracking-wider text-slate-800">
+                                    <i class="fa-solid fa-quote-left text-apwen-gold mr-2"></i>Welcome Charge from the Chairman
+                                </h3>
+                                <p id="display-welcome-message" class="text-slate-700 text-sm sm:text-base leading-relaxed">
+                                    "Welcome to the Kano State Chapter of the Association of Professional Women Engineers of Nigeria (APWEN). Our mission is clear: to uphold engineering excellence in public and private infrastructure, create a supportive sisterhood for every female engineer in Kano, and open doors of STEM discovery for young girls across our schools. Together, we build a safer, stronger, and more innovative Kano."
+                                </p>
+                            </div>
+
+                            <!-- Address & Email Cards -->
+                            <div class="grid sm:grid-cols-2 gap-4">
+                                <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200 flex items-start space-x-3.5">
+                                    <div class="w-11 h-11 rounded-xl bg-apwen-magenta/10 text-apwen-magenta flex items-center justify-center shrink-0 mt-0.5">
+                                        <i class="fa-solid fa-location-dot text-lg"></i>
+                                    </div>
+                                    <div>
+                                        <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400 block">Secretariat Office Address</span>
+                                        <p id="display-office-address" class="text-sm font-semibold text-slate-800 leading-relaxed mt-1">
+                                            Kano State Ministry of Works and Infrastructure Development, Number 1 Commissioner Road, GRA, Kano
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200 flex items-start space-x-3.5">
+                                    <div class="w-11 h-11 rounded-xl bg-amber-100 text-apwen-gold flex items-center justify-center shrink-0 mt-0.5">
+                                        <i class="fa-solid fa-envelope text-lg"></i>
+                                    </div>
+                                    <div class="min-w-0 flex-1">
+                                        <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400 block">Official Chapter Contact</span>
+                                        <a id="display-email-link" href="mailto:kanoapwen@gmail.com" class="text-base font-bold text-apwen-magenta hover:underline break-all block mt-1">
+                                            kanoapwen@gmail.com
+                                        </a>
+                                        <button onclick="copyChapterEmail()" class="mt-2.5 inline-flex items-center px-3 py-1.5 rounded-lg bg-white border border-slate-200 hover:bg-slate-100 text-slate-700 text-xs font-semibold transition">
+                                            <i class="fa-regular fa-copy mr-1.5"></i> <span id="copy-email-text">Copy Email Address</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Executive Committee & Advisory Governance Structure -->
+                <div class="bg-white rounded-3xl border border-slate-200 shadow-lg p-7 sm:p-10 space-y-6">
+                    <div class="border-b border-slate-100 pb-5">
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-apwen-magenta/10 text-apwen-magenta">
+                            Chapter Governance
+                        </span>
+                        <h2 class="font-heading text-2xl sm:text-3xl font-extrabold text-slate-900 mt-2">
+                            Executive Committee & Standing Committees
+                        </h2>
+                        <p class="text-sm text-slate-600 mt-1">
+                            APWEN Kano operates through an elected Executive Committee supported by senior Fellows and specialized sub-committees.
+                        </p>
+                    </div>
+
+                    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                        <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200">
+                            <span class="text-xs font-bold text-apwen-magenta uppercase">Office of the Chairman</span>
+                            <h3 class="font-heading font-bold text-lg text-slate-900 mt-1">Chapter Chairman</h3>
+                            <p class="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed">Provides strategic direction, represents Kano Chapter at APWEN National & NSE Councils, and leads high-level government and industry partnerships.</p>
+                        </div>
+                        <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200">
+                            <span class="text-xs font-bold text-apwen-gold uppercase">Operations & Secretariat</span>
+                            <h3 class="font-heading font-bold text-lg text-slate-900 mt-1">Vice Chairman & General Secretary</h3>
+                            <p class="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed">Coordinates chapter meetings, membership database records, COREN/NSE verification support, and official correspondence.</p>
+                        </div>
+                        <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200">
+                            <span class="text-xs font-bold text-apwen-magenta uppercase">Technical & CPD</span>
+                            <h3 class="font-heading font-bold text-lg text-slate-900 mt-1">Technical Secretary</h3>
+                            <p class="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed">Organizes Continuing Professional Development (CPD) workshops, industrial site visits, engineering lectures, and technical publications.</p>
+                        </div>
+                        <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200">
+                            <span class="text-xs font-bold text-apwen-gold uppercase">STEM & Schools</span>
+                            <h3 class="font-heading font-bold text-lg text-slate-900 mt-1">STEM Outreach & Youth Committee</h3>
+                            <p class="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed">Leads "Invent It, Build It" school visits, science competitions, career talks, and scholarship selection across Kano schools.</p>
+                        </div>
+                        <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200">
+                            <span class="text-xs font-bold text-apwen-magenta uppercase">Finance & Stewardship</span>
+                            <h3 class="font-heading font-bold text-lg text-slate-900 mt-1">Treasurer & Financial Secretary</h3>
+                            <p class="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed">Ensures transparent accounting of chapter dues, project grants, scholarship funds, and audited annual financial reports.</p>
+                        </div>
+                        <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200">
+                            <span class="text-xs font-bold text-apwen-gold uppercase">Media & Welfare</span>
+                            <h3 class="font-heading font-bold text-lg text-slate-900 mt-1">Publicity & Welfare Secretaries</h3>
+                            <p class="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed">Manages public communications, community advocacy, and member welfare support across all career stages.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- *****************************************************************
+             VIEW 3: AIMS, MANDATE & MEMBERSHIP CATEGORIES
+             ***************************************************************** -->
+        <div id="view-aims" class="page-view blueprint-bg">
+            <section class="py-12 sm:py-16 px-5 sm:px-8 max-w-7xl mx-auto space-y-12">
+                
+                <!-- Constitutional Aims Section -->
+                <div class="bg-white rounded-3xl border border-slate-200 shadow-xl p-7 sm:p-10 space-y-8">
+                    <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-slate-100 pb-6">
+                        <div>
+                            <span class="inline-flex items-center px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-apwen-magenta/10 text-apwen-magenta">
+                                Constitutional Aims & Mandate
+                            </span>
+                            <h1 class="font-heading text-3xl sm:text-4xl font-extrabold text-slate-900 mt-2">
+                                Our Aims & Strategic Objectives
+                            </h1>
+                        </div>
+                        <button onclick="openAdminModal()" class="self-start md:self-auto px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition">
+                            <i class="fa-solid fa-plus mr-1.5 text-apwen-magenta"></i> Add / Remove Aims
+                        </button>
+                    </div>
+
+                    <!-- Core Mandate Banner -->
+                    <div class="p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-apwen-magentaLight via-pink-50 to-amber-50 border-l-4 border-apwen-magenta space-y-2">
+                        <h2 class="font-heading font-extrabold text-lg sm:text-xl text-apwen-magenta flex items-center">
+                            <i class="fa-solid fa-bullseye text-apwen-gold mr-2.5"></i> Primary Constitutional Mandate
+                        </h2>
+                        <p class="text-slate-700 text-sm sm:text-base leading-relaxed">
+                            To provide a vibrant forum for female engineers in Kano State to share technical knowledge, advance professionally to the pinnacle of engineering leadership, advocate for inclusive infrastructure policies, and inspire the girl-child in Northern Nigeria to embrace Science, Technology, Engineering, and Mathematics (STEM).
+                        </p>
+                    </div>
+
+                    <!-- Dynamic Aims Grid (Editable via Manage & Edit Site) -->
+                    <div id="aims-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <!-- Rendered by JS -->
+                    </div>
+                </div>
+
+                <!-- Membership Categories & Pathway -->
+                <div class="bg-white rounded-3xl border border-slate-200 shadow-lg p-7 sm:p-10 space-y-8">
+                    <div class="border-b border-slate-100 pb-5">
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-amber-100 text-amber-800">
+                            Membership Grades
+                        </span>
+                        <h2 class="font-heading text-2xl sm:text-3xl font-extrabold text-slate-900 mt-2">
+                            APWEN Membership Categories & Progression
+                        </h2>
+                        <p class="text-sm text-slate-600 mt-1">
+                            Every female engineering student, graduate, and registered professional in Kano has a home in APWEN.
+                        </p>
+                    </div>
+
+                    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+                        <div class="p-6 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col justify-between">
+                            <div>
+                                <span class="px-3 py-1 rounded-full text-xs font-bold bg-apwen-magenta text-white">FNSE / Fellow</span>
+                                <h3 class="font-heading font-bold text-lg text-slate-900 mt-3">Fellow Member</h3>
+                                <p class="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed">Distinguished senior engineers who have attained Fellowship of the Nigerian Society of Engineers (FNSE) and made landmark contributions to engineering.</p>
+                            </div>
+                            <span class="text-xs font-bold text-apwen-magenta mt-4 pt-3 border-t border-slate-200 block">Advisory & Mentorship Tier</span>
+                        </div>
+
+                        <div class="p-6 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col justify-between">
+                            <div>
+                                <span class="px-3 py-1 rounded-full text-xs font-bold bg-apwen-gold text-white">MNSE / COREN</span>
+                                <h3 class="font-heading font-bold text-lg text-slate-900 mt-3">Corporate Member</h3>
+                                <p class="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed">Registered female engineers certified by COREN and Corporate Members of the Nigerian Society of Engineers (MNSE) practicing in Kano.</p>
+                            </div>
+                            <span class="text-xs font-bold text-apwen-gold mt-4 pt-3 border-t border-slate-200 block">Full Voting & Executive Rights</span>
+                        </div>
+
+                        <div class="p-6 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col justify-between">
+                            <div>
+                                <span class="px-3 py-1 rounded-full text-xs font-bold bg-slate-800 text-white">GMNSE</span>
+                                <h3 class="font-heading font-bold text-lg text-slate-900 mt-3">Graduate Member</h3>
+                                <p class="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed">Holders of accredited B.Eng / B.Tech degrees undergoing pupilage, NYSC, or early-career practice on the pathway to COREN registration.</p>
+                            </div>
+                            <span class="text-xs font-bold text-slate-700 mt-4 pt-3 border-t border-slate-200 block">COREN Exam Prep & Coaching</span>
+                        </div>
+
+                        <div class="p-6 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col justify-between">
+                            <div>
+                                <span class="px-3 py-1 rounded-full text-xs font-bold bg-emerald-700 text-white">Collegiate</span>
+                                <h3 class="font-heading font-bold text-lg text-slate-900 mt-3">Student Member</h3>
+                                <p class="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed">Female undergraduates studying engineering at Bayero University Kano (BUK), KUST Wudil, Kano State Polytechnic, and sister institutions.</p>
+                            </div>
+                            <span class="text-xs font-bold text-emerald-700 mt-4 pt-3 border-t border-slate-200 block">Scholarships & Internships</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- *****************************************************************
+             VIEW 4: PROGRAMS & INITIATIVES (WHAT WE DO)
+             ***************************************************************** -->
+        <div id="view-programs" class="page-view blueprint-bg">
+            <section class="py-12 sm:py-16 px-5 sm:px-8 max-w-7xl mx-auto space-y-12">
+                
+                <div class="bg-white rounded-3xl border border-slate-200 shadow-xl p-7 sm:p-10 space-y-8">
+                    <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-slate-100 pb-6">
+                        <div>
+                            <span class="inline-flex items-center px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-amber-100 text-amber-800">
+                                What We Do in Kano State
+                            </span>
+                            <h1 class="font-heading text-3xl sm:text-4xl font-extrabold text-slate-900 mt-2">
+                                Flagship Programs & Community Initiatives
+                            </h1>
+                            <p class="text-sm sm:text-base text-slate-600 mt-2 max-w-2xl">
+                                From secondary school science laboratories to industrial policy roundtables, explore how APWEN Kano turns engineering knowledge into measurable community impact.
+                            </p>
+                        </div>
+                        <button onclick="openAdminModal()" class="self-start md:self-auto px-4 py-2.5 rounded-xl bg-apwen-magenta hover:bg-apwen-plum text-white text-xs font-bold shadow transition">
+                            <i class="fa-solid fa-plus mr-1.5"></i> Add / Remove Programs
+                        </button>
+                    </div>
+
+                    <!-- Dynamic Deep-Dive Programs Grid -->
+                    <div id="programs-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <!-- Rendered by JS -->
+                    </div>
+                </div>
+
+                <!-- How Our Outreach Works (4-Step Execution Model) -->
+                <div class="bg-gradient-to-br from-apwen-plum to-apwen-magenta rounded-3xl p-7 sm:p-10 text-white shadow-xl space-y-6">
+                    <div class="max-w-2xl">
+                        <span class="text-xs font-bold uppercase tracking-widest text-apwen-goldLight">How We Execute</span>
+                        <h2 class="font-heading text-2xl sm:text-3xl font-extrabold mt-1">Our 4-Pillar Intervention Model</h2>
+                    </div>
+
+                    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+                        <div class="p-5 rounded-2xl bg-white/10 border border-white/15 backdrop-blur-sm">
+                            <span class="font-heading text-2xl font-extrabold text-apwen-goldLight">01. Catch Them Young</span>
+                            <p class="text-xs sm:text-sm text-pink-100 mt-2 leading-relaxed">Interactive STEM demonstrations in junior and senior secondary schools across Kano before subject selection.</p>
+                        </div>
+                        <div class="p-5 rounded-2xl bg-white/10 border border-white/15 backdrop-blur-sm">
+                            <span class="font-heading text-2xl font-extrabold text-apwen-goldLight">02. Equip & Sponsor</span>
+                            <p class="text-xs sm:text-sm text-pink-100 mt-2 leading-relaxed">Providing scholarships, textbooks, solar kits, and science lab apparatus to remove financial barriers.</p>
+                        </div>
+                        <div class="p-5 rounded-2xl bg-white/10 border border-white/15 backdrop-blur-sm">
+                            <span class="font-heading text-2xl font-extrabold text-apwen-goldLight">03. Bridge Industry</span>
+                            <p class="text-xs sm:text-sm text-pink-100 mt-2 leading-relaxed">Securing SIWES industrial placements, factory tours, and technical mentorship for undergraduate women.</p>
+                        </div>
+                        <div class="p-5 rounded-2xl bg-white/10 border border-white/15 backdrop-blur-sm">
+                            <span class="font-heading text-2xl font-extrabold text-apwen-goldLight">04. Certify & Lead</span>
+                            <p class="text-xs sm:text-sm text-pink-100 mt-2 leading-relaxed">Guiding graduate engineers through COREN interviews and advocating for female representation in executive roles.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- *****************************************************************
+             VIEW 5: WAY OF CONDUCT, ETHICS & INTERACTIVE FAQ ACCORDION
+             ***************************************************************** -->
+        <div id="view-conduct" class="page-view">
+            <section class="bg-apwen-plum text-white py-14 sm:py-20 px-5 sm:px-8">
+                <div class="max-w-7xl mx-auto space-y-10">
+                    <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6 border-b border-white/15 pb-7">
+                        <div class="max-w-2xl">
+                            <span class="inline-flex items-center px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-white/15 text-apwen-goldLight border border-white/20">
+                                COREN & NSE Ethical Code
+                            </span>
+                            <h1 class="font-heading text-3xl sm:text-5xl font-extrabold mt-3">
+                                Our Way of Conduct & Professional Ethics
+                            </h1>
+                        </div>
+                        <p class="text-sm sm:text-base text-pink-100 max-w-md italic border-l-2 border-apwen-goldLight pl-4">
+                            "To hold paramount the safety, health, and welfare of the public, and to lift every sister engineer as we climb."
+                        </p>
+                    </div>
+
+                    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <div class="p-6 rounded-3xl bg-white/10 backdrop-blur-sm border border-white/20 space-y-3">
+                            <div class="flex items-center space-x-3">
+                                <span class="w-10 h-10 rounded-xl bg-apwen-gold text-white flex items-center justify-center font-extrabold">1</span>
+                                <h3 class="font-heading font-bold text-xl">Integrity & Public Safety</h3>
+                            </div>
+                            <p class="text-sm text-pink-100 leading-relaxed">
+                                Zero tolerance for substandard designs, structural compromise, or falsification of engineering reports. Public safety always supersedes commercial or personal pressure.
+                            </p>
+                        </div>
+
+                        <div class="p-6 rounded-3xl bg-white/10 backdrop-blur-sm border border-white/20 space-y-3">
+                            <div class="flex items-center space-x-3">
+                                <span class="w-10 h-10 rounded-xl bg-apwen-gold text-white flex items-center justify-center font-extrabold">2</span>
+                                <h3 class="font-heading font-bold text-xl">Competence & CPD</h3>
+                            </div>
+                            <p class="text-sm text-pink-100 leading-relaxed">
+                                Members undertake engineering assignments strictly within their areas of certified competence and engage in Continuing Professional Development (CPD) to stay current.
+                            </p>
+                        </div>
+
+                        <div class="p-6 rounded-3xl bg-white/10 backdrop-blur-sm border border-white/20 space-y-3">
+                            <div class="flex items-center space-x-3">
+                                <span class="w-10 h-10 rounded-xl bg-apwen-gold text-white flex items-center justify-center font-extrabold">3</span>
+                                <h3 class="font-heading font-bold text-xl">Environmental Stewardship</h3>
+                            </div>
+                            <p class="text-sm text-pink-100 leading-relaxed">
+                                Championing sustainable construction, clean water protection, waste reduction, and renewable energy solutions across Kano's urban and rural ecosystems.
+                            </p>
+                        </div>
+
+                        <div class="p-6 rounded-3xl bg-white/10 backdrop-blur-sm border border-white/20 space-y-3">
+                            <div class="flex items-center space-x-3">
+                                <span class="w-10 h-10 rounded-xl bg-apwen-gold text-white flex items-center justify-center font-extrabold">4</span>
+                                <h3 class="font-heading font-bold text-xl">Gender Equity & Respect</h3>
+                            </div>
+                            <p class="text-sm text-pink-100 leading-relaxed">
+                                Maintaining safe, respectful, harassment-free workplaces and sites where women engineers are evaluated strictly on technical merit, skill, and leadership.
+                            </p>
+                        </div>
+
+                        <div class="p-6 rounded-3xl bg-white/10 backdrop-blur-sm border border-white/20 space-y-3">
+                            <div class="flex items-center space-x-3">
+                                <span class="w-10 h-10 rounded-xl bg-apwen-gold text-white flex items-center justify-center font-extrabold">5</span>
+                                <h3 class="font-heading font-bold text-xl">Transparency in Public Works</h3>
+                            </div>
+                            <p class="text-sm text-pink-100 leading-relaxed">
+                                Upholding honest procurement, accurate billing of quantities, and transparent project supervision in all government and private infrastructure contracts.
+                            </p>
+                        </div>
+
+                        <div class="p-6 rounded-3xl bg-white/10 backdrop-blur-sm border border-white/20 space-y-3">
+                            <div class="flex items-center space-x-3">
+                                <span class="w-10 h-10 rounded-xl bg-apwen-gold text-white flex items-center justify-center font-extrabold">6</span>
+                                <h3 class="font-heading font-bold text-xl">Sisterhood & Mentorship</h3>
+                            </div>
+                            <p class="text-sm text-pink-100 leading-relaxed">
+                                Senior Fellows and Corporate Members actively mentor graduate and student engineers, fostering unity, ethical discipline, and mutual career support.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Interactive FAQ Accordion Section -->
+            <section class="py-14 sm:py-16 px-5 sm:px-8 max-w-4xl mx-auto space-y-6">
+                <div class="text-center space-y-2">
+                    <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-apwen-magenta/10 text-apwen-magenta">
+                        Frequently Asked Questions
+                    </span>
+                    <h2 class="font-heading text-2xl sm:text-3xl font-extrabold text-slate-900">
+                        Membership, Conduct & Chapter FAQs
+                    </h2>
+                </div>
+
+                <div class="space-y-3" id="faq-accordion">
+                    <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden">
+                        <button onclick="toggleFaq(0)" class="w-full px-6 py-4 text-left flex items-center justify-between font-heading font-bold text-slate-900 hover:text-apwen-magenta transition">
+                            <span>Who is eligible to join APWEN Kano Chapter?</span>
+                            <i id="faq-icon-0" class="fa-solid fa-chevron-down text-xs text-apwen-magenta transition-transform"></i>
+                        </button>
+                        <div id="faq-body-0" class="px-6 pb-5 text-sm text-slate-600 leading-relaxed border-t border-slate-100 pt-3">
+                            Any female studying engineering at an accredited tertiary institution in Kano, any female engineering graduate (B.Eng/B.Tech/HND with PGD), and any COREN-registered or NSE Corporate female engineer residing or working in Kano State is eligible to join.
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden">
+                        <button onclick="toggleFaq(1)" class="w-full px-6 py-4 text-left flex items-center justify-between font-heading font-bold text-slate-900 hover:text-apwen-magenta transition">
+                            <span>How does APWEN Kano assist graduates with COREN registration?</span>
+                            <i id="faq-icon-1" class="fa-solid fa-chevron-down text-xs text-apwen-magenta transition-transform"></i>
+                        </button>
+                        <div id="faq-body-1" class="hidden px-6 pb-5 text-sm text-slate-600 leading-relaxed border-t border-slate-100 pt-3">
+                            We organize technical report writing clinics, mock professional interviews led by senior COREN examiners and NSE Fellows, and mentorship pairing so young engineers pass their corporate examinations smoothly.
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden">
+                        <button onclick="toggleFaq(2)" class="w-full px-6 py-4 text-left flex items-center justify-between font-heading font-bold text-slate-900 hover:text-apwen-magenta transition">
+                            <span>How can secondary schools in Kano invite APWEN for a STEM visit?</span>
+                            <i id="faq-icon-2" class="fa-solid fa-chevron-down text-xs text-apwen-magenta transition-transform"></i>
+                        </button>
+                        <div id="faq-body-2" class="hidden px-6 pb-5 text-sm text-slate-600 leading-relaxed border-t border-slate-100 pt-3">
+                            Principals, science teachers, or PTA leaders can send an official invitation through our Contact portal or email <strong>kanoapwen@gmail.com</strong> with the school's name, location in Kano, and preferred dates for our "Invent It, Build It" outreach team.
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden">
+                        <button onclick="toggleFaq(3)" class="w-full px-6 py-4 text-left flex items-center justify-between font-heading font-bold text-slate-900 hover:text-apwen-magenta transition">
+                            <span>Where is the APWEN Kano Secretariat located?</span>
+                            <i id="faq-icon-3" class="fa-solid fa-chevron-down text-xs text-apwen-magenta transition-transform"></i>
+                        </button>
+                        <div id="faq-body-3" class="hidden px-6 pb-5 text-sm text-slate-600 leading-relaxed border-t border-slate-100 pt-3">
+                            Our chapter secretariat is located at the <strong>Kano State Ministry of Works and Infrastructure Development, Number 1 Commissioner Road, GRA, Kano</strong>.
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- *****************************************************************
+             VIEW 6: CONTACT & MEMBERSHIP PORTAL
+             ***************************************************************** -->
+        <div id="view-contact" class="page-view blueprint-bg">
+            <section class="py-12 sm:py-16 px-5 sm:px-8 max-w-7xl mx-auto">
+                <div class="bg-white rounded-3xl border border-slate-200 shadow-xl overflow-hidden grid lg:grid-cols-12">
+                    
+                    <!-- Left Secretariat Info & Directions Panel -->
+                    <div class="lg:col-span-5 bg-gradient-to-br from-apwen-magenta via-apwen-plum to-apwen-magenta p-8 sm:p-10 text-white flex flex-col justify-between space-y-8">
+                        <div class="space-y-4">
+                            <span class="inline-block px-3.5 py-1 rounded-full text-xs font-bold bg-white/15 text-apwen-goldLight">Official Secretariat</span>
+                            <h1 class="font-heading text-3xl sm:text-4xl font-extrabold">Contact APWEN Kano</h1>
+                            <p class="text-sm sm:text-base text-pink-100 leading-relaxed">
+                                Connect with our secretariat for membership registration, school STEM outreach invitations, corporate sponsorships, or technical collaborations.
+                            </p>
+                        </div>
+
+                        <div class="space-y-5 text-sm">
+                            <div class="p-4 rounded-2xl bg-white/10 border border-white/15 flex items-start space-x-3.5">
+                                <i class="fa-solid fa-user-tie text-apwen-goldLight text-lg mt-1"></i>
+                                <div>
+                                    <span class="text-xs text-pink-200 uppercase tracking-wider block">Chapter Chairman</span>
+                                    <strong id="contact-leader-name" class="text-base block mt-0.5">Engr. Safiya Aliyu Mahmoud, MNSE</strong>
+                                </div>
+                            </div>
+
+                            <div class="p-4 rounded-2xl bg-white/10 border border-white/15 flex items-start space-x-3.5">
+                                <i class="fa-solid fa-location-dot text-apwen-goldLight text-lg mt-1"></i>
+                                <div>
+                                    <span class="text-xs text-pink-200 uppercase tracking-wider block">Office Address & Directions</span>
+                                    <span id="contact-office-address" class="font-medium block mt-0.5 leading-relaxed">Kano State Ministry of Works and Infrastructure Development, Number 1 Commissioner Road, GRA, Kano</span>
+                                    <span class="text-xs text-pink-200 block mt-1.5">Landmark: GRA / Commissioner Road Secretariat Axis, Kano</span>
+                                </div>
+                            </div>
+
+                            <div class="p-4 rounded-2xl bg-white/10 border border-white/15 flex items-start space-x-3.5">
+                                <i class="fa-solid fa-envelope text-apwen-goldLight text-lg mt-1"></i>
+                                <div>
+                                    <span class="text-xs text-pink-200 uppercase tracking-wider block">Official Email</span>
+                                    <a id="contact-email-link" href="mailto:kanoapwen@gmail.com" class="font-bold text-base hover:underline block mt-0.5">kanoapwen@gmail.com</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Membership Interest & Direct Inquiry Form -->
+                    <div class="lg:col-span-7 p-8 sm:p-10">
+                        <div id="contact-form-box" class="space-y-6">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-apwen-magenta">Membership & Partnerships</span>
+                                <h2 class="font-heading text-2xl sm:text-3xl font-extrabold text-slate-900 mt-1">Send an Inquiry or Membership Application</h2>
+                                <p class="text-sm text-slate-500 mt-1">Fill out the form below to prepare a pre-addressed message directly to the APWEN Kano Secretariat.</p>
+                            </div>
+
+                            <form onsubmit="handleContactSubmit(event)" class="space-y-4">
+                                <div class="grid sm:grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-xs font-bold uppercase text-slate-700 mb-1.5">Full Name & Title</label>
+                                        <input id="inq-name" type="text" required placeholder="e.g., Engr. Amina Abdullahi" class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-apwen-magenta outline-none text-sm">
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-bold uppercase text-slate-700 mb-1.5">Phone / WhatsApp Number</label>
+                                        <input id="inq-phone" type="tel" required placeholder="e.g., 0803 000 0000" class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-apwen-magenta outline-none text-sm">
+                                    </div>
+                                </div>
+
+                                <div class="grid sm:grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-xs font-bold uppercase text-slate-700 mb-1.5">Inquiry / Membership Category</label>
+                                        <select id="inq-category" class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-apwen-magenta outline-none text-sm bg-white">
+                                            <option>Corporate Member (COREN / MNSE)</option>
+                                            <option>Graduate Member (GMNSE)</option>
+                                            <option>Engineering Student (BUK / KUST / Poly)</option>
+                                            <option>Secondary School STEM Outreach Request</option>
+                                            <option>Corporate Sponsorship / Partnership</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-bold uppercase text-slate-700 mb-1.5">Engineering Discipline / Institution</label>
+                                        <input id="inq-discipline" type="text" placeholder="e.g., Civil Engineering / BUK" class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-apwen-magenta outline-none text-sm">
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label class="block text-xs font-bold uppercase text-slate-700 mb-1.5">Message / Details</label>
+                                    <textarea id="inq-message" rows="4" required placeholder="Write your message, membership request, or partnership details here..." class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-apwen-magenta outline-none text-sm"></textarea>
+                                </div>
+
+                                <button type="submit" class="w-full py-4 rounded-2xl bg-apwen-magenta hover:bg-apwen-plum text-white font-bold shadow-lg transition flex items-center justify-center text-base">
+                                    <span>Submit & Open Email to Secretariat</span>
+                                    <i class="fa-solid fa-paper-plane ml-2.5"></i>
+                                </button>
+                            </form>
+                        </div>
+
+                        <div id="contact-success-box" class="hidden text-center py-12 space-y-5">
+                            <div class="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center text-3xl mx-auto">
+                                <i class="fa-solid fa-check"></i>
+                            </div>
+                            <h3 class="font-heading text-2xl font-extrabold text-slate-900">Inquiry Ready & Sent!</h3>
+                            <p class="text-sm sm:text-base text-slate-600 max-w-md mx-auto">
+                                Thank you for reaching out to APWEN Kano Chapter. Your email client has been opened to deliver your message to <strong id="success-email-span" class="text-apwen-magenta">kanoapwen@gmail.com</strong>.
+                            </p>
+                            <button onclick="resetContactForm()" class="px-6 py-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold">
+                                Send Another Message
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+    </main>
+
+    <!-- =====================================================================
+         3. FLOATING BOTTOM QUICK-JUMP BAR (SMOOTH GLIDE TO NEXT/PREV VIEW)
+         ===================================================================== -->
+    <div class="fixed bottom-4 left-1/2 -translate-x-1/2 z-30 bg-slate-950/90 backdrop-blur-md text-white px-4 py-2 rounded-full shadow-2xl border border-white/15 flex items-center space-x-3">
+        <button onclick="stepSection(-1)" class="px-3 py-1 rounded-full bg-white/10 hover:bg-apwen-magenta text-xs font-bold flex items-center transition">
+            <i class="fa-solid fa-chevron-left mr-1.5 text-apwen-goldLight"></i> Prev
+        </button>
+        <span id="current-step-label" class="text-xs font-bold uppercase tracking-wider text-slate-200 px-1 whitespace-nowrap">
+            1 / 6 • Home
+        </span>
+        <button onclick="stepSection(1)" class="px-3 py-1 rounded-full bg-white/10 hover:bg-apwen-magenta text-xs font-bold flex items-center transition">
+            Next <i class="fa-solid fa-chevron-right ml-1.5 text-apwen-goldLight"></i>
+        </button>
+    </div>
+
+    <!-- =====================================================================
+         4. FULL FOOTER WITH LOGO, QUICK LINKS & LIVE SITE MANAGER BUTTON
+         ===================================================================== -->
+    <footer class="bg-slate-950 text-slate-300 border-t border-slate-800 pt-14 pb-24 px-5 sm:px-8">
+        <div class="max-w-7xl mx-auto grid md:grid-cols-12 gap-10 pb-10 border-b border-slate-800">
+            <div class="md:col-span-5 space-y-4">
+                <div class="flex items-center space-x-3.5">
+                    <div class="w-12 h-12 rounded-full shrink-0">
+                        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" class="w-full h-full rounded-full">
+                            <circle cx="100" cy="100" r="98" fill="#91146b"/>
+                            <rect x="34" y="68" width="132" height="64" rx="10" fill="#ffffff"/>
+                            <path d="M 42 82 Q 42 74 50 74 L 91 74 L 100 66 L 109 74 L 150 74 Q 158 74 158 82 L 158 118 Q 158 126 150 126 L 50 126 Q 42 126 42 118 Z" fill="#91146b"/>
+                            <polygon points="100,66 93,108 107,108" fill="#ffffff"/>
+                            <text x="100" y="117" font-family="Georgia, 'Times New Roman', serif" font-weight="900" font-size="31" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">APWEN</text>
+                        </svg>
+                    </div>
+                    <div>
+                        <span class="font-heading font-extrabold text-xl text-white block">APWEN KANO CHAPTER</span>
+                        <span class="text-xs text-slate-400">Association of Professional Women Engineers of Nigeria</span>
+                    </div>
+                </div>
+                <p class="text-sm text-slate-400 leading-relaxed">
+                    A proud division of the Nigerian Society of Engineers (NSE), dedicated to advancing women in engineering and promoting girl-child STEM education across Kano State.
+                </p>
+            </div>
+
+            <div class="md:col-span-3 space-y-3">
+                <h4 class="font-heading font-bold text-sm uppercase tracking-wider text-white">Chapter Navigation</h4>
+                <ul class="space-y-2 text-sm">
+                    <li><button onclick="navigateTo('home')" class="hover:text-apwen-goldLight transition">Home & Events</button></li>
+                    <li><button onclick="navigateTo('leadership')" class="hover:text-apwen-goldLight transition">Chapter Leadership</button></li>
+                    <li><button onclick="navigateTo('aims')" class="hover:text-apwen-goldLight transition">Aims & Mandate</button></li>
+                    <li><button onclick="navigateTo('programs')" class="hover:text-apwen-goldLight transition">Programs & Initiatives</button></li>
+                    <li><button onclick="navigateTo('conduct')" class="hover:text-apwen-goldLight transition">Conduct & Ethics</button></li>
+                    <li><button onclick="navigateTo('contact')" class="hover:text-apwen-goldLight transition">Contact Secretariat</button></li>
+                </ul>
+            </div>
+
+            <div class="md:col-span-4 space-y-3">
+                <h4 class="font-heading font-bold text-sm uppercase tracking-wider text-white">Secretariat Details</h4>
+                <p class="text-sm text-slate-400 leading-relaxed">
+                    <strong class="text-white block" id="footer-leader-name">Engr. Safiya Aliyu Mahmoud, MNSE</strong>
+                    <span id="footer-office-address">Kano State Ministry of Works and Infrastructure Development, Number 1 Commissioner Road, GRA, Kano</span>
+                </p>
+                <p class="text-sm">
+                    <a id="footer-email-link" href="mailto:kanoapwen@gmail.com" class="text-apwen-goldLight font-bold hover:underline">kanoapwen@gmail.com</a>
+                </p>
+            </div>
+        </div>
+
+        <div class="max-w-7xl mx-auto pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <p class="text-xs text-slate-500 text-center sm:text-left">
+                &copy; 2026 Association of Professional Women Engineers of Nigeria (APWEN), Kano State Chapter. All rights reserved.
+            </p>
+            <button onclick="openAdminModal()" class="px-4 py-2.5 rounded-xl bg-apwen-magenta hover:bg-apwen-plum text-white text-xs font-bold shadow-lg flex items-center transition">
+                <i class="fa-solid fa-sliders mr-2 text-apwen-goldLight"></i> Manage & Edit Site
+            </button>
+        </div>
+    </footer>
+
+    <!-- =====================================================================
+         5. BUILT-IN WEBSITE CONTENT MANAGER MODAL (PIN: 1234)
+         ===================================================================== -->
+    <div id="admin-modal" class="hidden fixed inset-0 z-50 bg-slate-950/75 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-3xl w-full p-6 sm:p-8 shadow-2xl relative max-h-[90vh] overflow-y-auto">
+            <button onclick="closeAdminModal()" aria-label="Close Manager" class="absolute top-5 right-5 w-10 h-10 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 flex items-center justify-center">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <!-- PIN Step -->
+            <div id="admin-pin-step" class="space-y-4 py-3">
+                <span class="inline-block px-3 py-1 rounded-full text-xs font-bold bg-amber-100 text-amber-800">Chapter Admin Control</span>
+                <h3 class="font-heading text-2xl font-extrabold text-slate-900">Manage APWEN Kano Website</h3>
+                <p class="text-sm text-slate-600">Enter your Admin PIN to edit the Chairman's name, welcome message, address, email, or insert/remove Aims, Programs, and Events. <span class="text-xs text-slate-400">(Default PIN: 1234)</span></p>
+                <input id="admin-pin-input" type="password" inputmode="numeric" placeholder="Enter PIN (1234)" class="w-full px-4 py-3.5 rounded-xl border border-slate-300 focus:border-apwen-magenta outline-none text-base tracking-widest">
+                <p id="admin-pin-error" class="hidden text-xs font-semibold text-red-600">Incorrect PIN. Please enter 1234.</p>
+                <button onclick="verifyAdminPin()" class="w-full py-3.5 rounded-xl bg-apwen-magenta hover:bg-apwen-plum text-white font-bold shadow-md transition">
+                    Unlock Website Content Manager
+                </button>
+            </div>
+
+            <!-- Editor Step -->
+            <div id="admin-edit-step" class="hidden space-y-6">
+                <div>
+                    <span class="inline-block px-3 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800">Unlocked • Live Website Editor</span>
+                    <h3 class="font-heading text-2xl font-extrabold text-slate-900 mt-1">Control Chapter Leadership & Content</h3>
+                </div>
+
+                <!-- 1. Chairman & Secretariat Details -->
+                <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+                    <h4 class="font-heading font-bold text-sm text-apwen-magenta uppercase tracking-wider">1. Chapter Leader & Contact Details</h4>
+                    <div class="grid sm:grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1">Chairman / Leader Name</label>
+                            <input id="edit-leader-name" type="text" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm font-semibold">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1">Official Title</label>
+                            <input id="edit-leader-title" type="text" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">Secretariat Address</label>
+                        <input id="edit-office-address" type="text" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">Official Email</label>
+                        <input id="edit-contact-email" type="email" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">Chairman's Welcome Charge</label>
+                        <textarea id="edit-welcome-message" rows="3" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm"></textarea>
+                    </div>
+                </div>
+
+                <!-- 2. Manage Aims -->
+                <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+                    <h4 class="font-heading font-bold text-sm text-apwen-magenta uppercase tracking-wider">2. Manage Constitutional Aims (Insert or Remove)</h4>
+                    <div id="admin-aims-list" class="space-y-2"></div>
+                    <div class="flex flex-col sm:flex-row gap-2 pt-1">
+                        <input id="new-aim-title" type="text" placeholder="Aim Title (e.g., Digital Skills)" class="flex-1 px-3 py-2 rounded-xl border border-slate-300 text-xs">
+                        <input id="new-aim-desc" type="text" placeholder="Detailed description..." class="flex-1 px-3 py-2 rounded-xl border border-slate-300 text-xs">
+                        <button onclick="addNewAim()" class="px-4 py-2 rounded-xl bg-apwen-magenta text-white text-xs font-bold shrink-0">
+                            + Insert Aim
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 3. Manage Programs -->
+                <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+                    <h4 class="font-heading font-bold text-sm text-apwen-magenta uppercase tracking-wider">3. Manage Programs & Initiatives (Insert or Remove)</h4>
+                    <div id="admin-programs-list" class="space-y-2"></div>
+                    <div class="grid sm:grid-cols-3 gap-2 pt-1">
+                        <input id="new-prog-title" type="text" placeholder="Program Name" class="px-3 py-2 rounded-xl border border-slate-300 text-xs">
+                        <input id="new-prog-tag" type="text" placeholder="Category Tag" class="px-3 py-2 rounded-xl border border-slate-300 text-xs">
+                        <input id="new-prog-desc" type="text" placeholder="Program description..." class="px-3 py-2 rounded-xl border border-slate-300 text-xs">
+                    </div>
+                    <button onclick="addNewProgram()" class="w-full py-2.5 rounded-xl bg-apwen-gold hover:bg-amber-600 text-white text-xs font-bold">
+                        + Insert Program
+                    </button>
+                </div>
+
+                <!-- 4. Manage Upcoming Events -->
+                <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+                    <h4 class="font-heading font-bold text-sm text-apwen-magenta uppercase tracking-wider">4. Manage Upcoming Events (Insert or Remove)</h4>
+                    <div id="admin-events-list" class="space-y-2"></div>
+                    <div class="grid sm:grid-cols-3 gap-2 pt-1">
+                        <input id="new-event-date" type="text" placeholder="Date (e.g., Dec 12, 2026)" class="px-3 py-2 rounded-xl border border-slate-300 text-xs">
+                        <input id="new-event-title" type="text" placeholder="Event Title" class="px-3 py-2 rounded-xl border border-slate-300 text-xs">
+                        <input id="new-event-venue" type="text" placeholder="Venue in Kano" class="px-3 py-2 rounded-xl border border-slate-300 text-xs">
+                    </div>
+                    <button onclick="addNewEvent()" class="w-full py-2.5 rounded-xl bg-slate-800 hover:bg-slate-900 text-white text-xs font-bold">
+                        + Insert Event
+                    </button>
+                </div>
+
+                <!-- Save, Copy & Reset Actions -->
+                <div class="flex flex-wrap gap-3 pt-2">
+                    <button onclick="saveAllAdminChanges()" class="flex-1 py-3.5 rounded-xl bg-apwen-magenta hover:bg-apwen-plum text-white font-bold text-sm shadow">
+                        Save & Apply Changes Now
+                    </button>
+                    <button onclick="copyUpdatedSiteData()" class="px-4 py-3.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-semibold text-xs">
+                        <i class="fa-regular fa-copy mr-1.5"></i> <span id="copy-data-label">Copy Updated SITE_DATA Code</span>
+                    </button>
+                    <button onclick="resetAllDefaults()" class="px-4 py-3.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs">
+                        Reset Default
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- =====================================================================
+         6. JAVASCRIPT: NAVIGATION TRANSITIONS + SLIDESHOW + ADMIN ENGINE
+         ===================================================================== -->
+    <script>
+        /* ===================================================================
+           EDITABLE CHAPTER DATA (Edit in Quoder/GitHub or via "Manage & Edit Site")
+           =================================================================== */
+        const SITE_DATA = {
+            adminPin: "1234",
+            leaderName: "Engr. Safiya Aliyu Mahmoud, MNSE",
+            leaderTitle: "Chairman, APWEN Kano Chapter",
+            officeAddress: "Kano State Ministry of Works and Infrastructure Development, Number 1 Commissioner Road, GRA, Kano",
+            contactEmail: "kanoapwen@gmail.com",
+            welcomeMessage: "\"Welcome to the Kano State Chapter of the Association of Professional Women Engineers of Nigeria (APWEN). Our mission is clear: to uphold engineering excellence in public and private infrastructure, create a supportive sisterhood for every female engineer in Kano, and open doors of STEM discovery for young girls across our schools. Together, we build a safer, stronger, and more innovative Kano.\"",
+            aims: [
+                {
+                    title: "Promote Girl-Child STEM in Northern Nigeria",
+                    desc: "Inspire and mentor young girls across Kano secondary schools to embrace Science, Technology, Engineering, and Mathematics."
+                },
+                {
+                    title: "COREN & NSE Registration Support",
+                    desc: "Guide female engineering graduates through technical report writing, pupilage, and professional interviews for COREN certification."
+                },
+                {
+                    title: "Infrastructure Policy Advocacy",
+                    desc: "Collaborate with Kano State ministries and agencies to advocate for safe, durable, and inclusive public works."
+                },
+                {
+                    title: "Industry-Academia Linkage",
+                    desc: "Bridge theoretical coursework at BUK, KUST Wudil, and polytechnics with hands-on industrial engineering practice."
+                },
+                {
+                    title: "Leadership & Executive Representation",
+                    desc: "Empower women engineers to attain decision-making, project management, and board leadership roles across Kano's economy."
+                },
+                {
+                    title: "Community Engineering Interventions",
+                    desc: "Deliver clean water, renewable solar energy, and environmental sanitation projects to underserved communities in Kano."
+                }
+            ],
+            programs: [
+                {
+                    title: "\"Invent It, Build It\"",
+                    tag: "Secondary School STEM Outreach",
+                    desc: "Hands-on science experiments, renewable energy kits, and engineering problem-solving workshops conducted across Kano secondary schools."
+                },
+                {
+                    title: "\"Town & Gown\" Industrial Linkage",
+                    tag: "University & Career Mentorship",
+                    desc: "Connecting female engineering undergraduates at Bayero University Kano (BUK) and KUST Wudil with senior practicing engineers."
+                },
+                {
+                    title: "SheEngineer Scholarships & Lab Grants",
+                    tag: "Educational Sponsorship",
+                    desc: "Awarding merit scholarships to brilliant female STEM students and donating laboratory equipment to public girls' schools."
+                },
+                {
+                    title: "Girls in ICT & Renewable Energy",
+                    tag: "Digital & Solar Bootcamps",
+                    desc: "Practical bootcamps equipping young women in Kano with solar PV installation skills, coding, and digital engineering tools."
+                },
+                {
+                    title: "Kano Community Infrastructure Audits",
+                    tag: "Public Safety & Technical Service",
+                    desc: "Technical assessments and advisory support on school buildings, community boreholes, drainage networks, and road safety."
+                },
+                {
+                    title: "COREN & CPD Technical Workshops",
+                    tag: "Professional Development",
+                    desc: "Continuing Professional Development seminars on modern structural design, project management, and engineering ethics."
+                }
+            ],
+            events: [
+                {
+                    date: "December 2026",
+                    title: "APWEN Kano Annual General Meeting & Fellows Award Night",
+                    venue: "NSE Kano Branch Secretariat / GRA Conference Hall, Kano"
+                },
+                {
+                    date: "January 2027",
+                    title: "\"Invent It, Build It\" Kano Secondary Schools STEM Challenge",
+                    venue: "Government Girls Secondary Schools, Kano Municipal"
+                },
+                {
+                    date: "February 2027",
+                    title: "COREN Registration & Technical Report Writing Clinic",
+                    venue: "Faculty of Engineering, Bayero University Kano (BUK)"
+                }
+            ]
+        };
+
+        // Load saved edits from localStorage if available
+        let activeData = JSON.parse(JSON.stringify(SITE_DATA));
+        try {
+            const saved = localStorage.getItem('apwen_kano_full_data_v2');
+            if (saved) {
+                activeData = { ...activeData, ...JSON.parse(saved) };
+            }
+        } catch (e) {}
+
+        // Navigation Views & Directional Glide Transitions
+        const SECTIONS = ['home', 'leadership', 'aims', 'programs', 'conduct', 'contact'];
+        const SECTION_TITLES = {
+            home: 'Home',
+            leadership: 'Leadership',
+            aims: 'Aims & Mandate',
+            programs: 'Programs',
+            conduct: 'Conduct & Ethics',
+            contact: 'Contact'
+        };
+        let currentSectionIndex = 0;
+
+        function navigateTo(targetId) {
+            const targetIndex = SECTIONS.indexOf(targetId);
+            if (targetIndex === -1) return;
+
+            const isForward = targetIndex >= currentSectionIndex;
+            const currentView = document.getElementById(`view-${SECTIONS[currentSectionIndex]}`);
+            const nextView = document.getElementById(`view-${targetId}`);
+
+            if (targetIndex !== currentSectionIndex) {
+                currentView.classList.remove('active-view', 'glide-in-right', 'glide-in-left');
+                nextView.classList.remove('glide-in-right', 'glide-in-left');
+                nextView.classList.add('active-view', isForward ? 'glide-in-right' : 'glide-in-left');
+                currentSectionIndex = targetIndex;
+            }
+
+            updateNavIndicator(targetId);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function stepSection(direction) {
+            let nextIdx = currentSectionIndex + direction;
+            if (nextIdx >= SECTIONS.length) nextIdx = 0;
+            if (nextIdx < 0) nextIdx = SECTIONS.length - 1;
+            navigateTo(SECTIONS[nextIdx]);
+        }
+
+        function updateNavIndicator(activeId) {
+            const pill = document.getElementById('nav-pill');
+            const desktopBtns = document.querySelectorAll('.nav-btn');
+            desktopBtns.forEach(btn => {
+                if (btn.dataset.tab === activeId) {
+                    btn.classList.remove('text-slate-700', 'hover:text-apwen-magenta');
+                    btn.classList.add('text-white');
+                    if (pill && btn.offsetWidth > 0) {
+                        pill.style.width = `${btn.offsetWidth}px`;
+                        pill.style.transform = `translateX(${btn.offsetLeft - 6}px)`;
+                    }
+                } else {
+                    btn.classList.remove('text-white');
+                    btn.classList.add('text-slate-700', 'hover:text-apwen-magenta');
+                }
+            });
+
+            document.querySelectorAll('.m-nav-btn').forEach(btn => {
+                if (btn.dataset.mtab === activeId) {
+                    btn.classList.add('bg-apwen-magenta', 'text-white');
+                    btn.classList.remove('text-slate-600', 'bg-white');
+                    btn.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+                } else {
+                    btn.classList.remove('bg-apwen-magenta', 'text-white');
+                    btn.classList.add('text-slate-600', 'bg-white');
+                }
+            });
+
+            const idx = SECTIONS.indexOf(activeId);
+            document.getElementById('current-step-label').textContent = `${idx + 1} / ${SECTIONS.length} • ${SECTION_TITLES[activeId]}`;
+        }
+
+        // Render Dynamic Content Across All Views
+        function renderAllContent() {
+            // Sync Leader Name, Title, Address, Email & Welcome Message across all sections
+            const leaderIds = ['display-leader-name', 'home-leader-inline', 'home-card-leader', 'contact-leader-name', 'footer-leader-name'];
+            leaderIds.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.textContent = activeData.leaderName;
+            });
+
+            document.getElementById('display-leader-title').textContent = activeData.leaderTitle;
+            document.getElementById('display-welcome-message').textContent = activeData.welcomeMessage;
+
+            const addressIds = ['display-office-address', 'home-card-address', 'contact-office-address', 'footer-office-address'];
+            addressIds.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.textContent = activeData.officeAddress;
+            });
+
+            const emailLinks = ['display-email-link', 'home-card-email', 'contact-email-link', 'footer-email-link'];
+            emailLinks.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) {
+                    el.textContent = activeData.contactEmail;
+                    el.href = `mailto:${activeData.contactEmail}`;
+                }
+            });
+            document.getElementById('success-email-span').textContent = activeData.contactEmail;
+
+            // Render Aims Grid
+            document.getElementById('aims-grid').innerHTML = activeData.aims.map((aim, index) => `
+                <div class="p-6 rounded-3xl bg-slate-50 border border-slate-200 hover:border-apwen-magenta/40 hover:shadow-md transition">
+                    <div class="w-10 h-10 rounded-xl bg-apwen-magenta text-white font-extrabold text-sm flex items-center justify-center mb-4">
+                        0${index + 1}
+                    </div>
+                    <h3 class="font-heading font-bold text-lg text-slate-900 mb-2">${aim.title}</h3>
+                    <p class="text-sm text-slate-600 leading-relaxed">${aim.desc}</p>
+                </div>
+            `).join('');
+
+            // Render Programs Grid
+            const progIcons = ['fa-flask-vial', 'fa-handshake-angle', 'fa-graduation-cap', 'fa-solar-panel', 'fa-helmet-safety', 'fa-award'];
+            document.getElementById('programs-grid').innerHTML = activeData.programs.map((prog, index) => `
+                <div class="p-6 rounded-3xl bg-slate-50 border border-slate-200 hover:border-apwen-magenta/40 hover:shadow-lg transition flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 rounded-2xl ${index % 2 === 0 ? 'bg-apwen-magenta' : 'bg-apwen-gold'} text-white flex items-center justify-center text-xl mb-5 shadow-sm">
+                            <i class="fa-solid ${progIcons[index % progIcons.length]}"></i>
+                        </div>
+                        <h3 class="font-heading font-bold text-xl text-slate-900 mb-2.5">${prog.title}</h3>
+                        <p class="text-sm text-slate-600 leading-relaxed mb-5">${prog.desc}</p>
+                    </div>
+                    <div class="pt-3.5 border-t border-slate-200 text-xs font-bold text-apwen-magenta flex items-center">
+                        <i class="fa-solid fa-tag mr-2 text-apwen-gold"></i>
+                        <span>${prog.tag}</span>
+                    </div>
+                </div>
+            `).join('');
+
+            // Render Upcoming Events Grid
+            document.getElementById('events-grid').innerHTML = activeData.events.map(ev => `
+                <div class="p-6 rounded-2xl bg-slate-50 border border-slate-200 hover:border-apwen-magenta/40 transition flex flex-col justify-between space-y-4">
+                    <div class="space-y-2.5">
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-apwen-magenta text-white">
+                            <i class="fa-regular fa-calendar mr-1.5"></i> ${ev.date}
+                        </span>
+                        <h3 class="font-heading font-bold text-lg text-slate-900 leading-snug">${ev.title}</h3>
+                    </div>
+                    <p class="text-xs text-slate-600 flex items-start pt-3 border-t border-slate-200">
+                        <i class="fa-solid fa-location-dot text-apwen-gold mr-2 mt-0.5"></i>
+                        <span>${ev.venue}</span>
+                    </p>
+                </div>
+            `).join('');
+        }
+
+        // Copy Email Helper
+        function copyChapterEmail() {
+            const temp = document.createElement('input');
+            temp.value = activeData.contactEmail;
+            document.body.appendChild(temp);
+            temp.select();
+            document.execCommand('copy');
+            document.body.removeChild(temp);
+
+            const label = document.getElementById('copy-email-text');
+            label.textContent = "Copied!";
+            setTimeout(() => { label.textContent = "Copy Email Address"; }, 2000);
+        }
+
+        // Hero Slideshow Controls (4 Slides)
+        let heroSlideIdx = 0;
+        const heroSlides = document.querySelectorAll('.hero-slide');
+        const heroDots = document.querySelectorAll('.hero-dot');
+        let heroTimer;
+
+        function goToHeroSlide(idx) {
+            if (idx >= heroSlides.length) heroSlideIdx = 0;
+            else if (idx < 0) heroSlideIdx = heroSlides.length - 1;
+            else heroSlideIdx = idx;
+
+            heroSlides.forEach(s => s.classList.remove('active'));
+            heroDots.forEach(d => {
+                d.classList.remove('w-10', 'bg-apwen-goldLight');
+                d.classList.add('w-2.5', 'bg-white/45');
+            });
+
+            heroSlides[heroSlideIdx].classList.add('active');
+            heroDots[heroSlideIdx].classList.remove('w-2.5', 'bg-white/45');
+            heroDots[heroSlideIdx].classList.add('w-10', 'bg-apwen-goldLight');
+
+            clearInterval(heroTimer);
+            heroTimer = setInterval(() => goToHeroSlide(heroSlideIdx + 1), 6000);
+        }
+
+        function stepHeroSlide(step) {
+            goToHeroSlide(heroSlideIdx + step);
+        }
+
+        // FAQ Accordion Toggle
+        function toggleFaq(index) {
+            const body = document.getElementById(`faq-body-${index}`);
+            const icon = document.getElementById(`faq-icon-${index}`);
+            const isHidden = body.classList.contains('hidden');
+            body.classList.toggle('hidden');
+            icon.style.transform = isHidden ? 'rotate(180deg)' : 'rotate(0deg)';
+        }
+
+        // Contact Form Submission
+        function handleContactSubmit(e) {
+            e.preventDefault();
+            const name = document.getElementById('inq-name').value;
+            const phone = document.getElementById('inq-phone').value;
+            const cat = document.getElementById('inq-category').value;
+            const disc = document.getElementById('inq-discipline').value;
+            const msg = document.getElementById('inq-message').value;
+
+            const subject = encodeURIComponent(`APWEN Kano Inquiry (${cat}) - ${name}`);
+            const body = encodeURIComponent(`Name: ${name}\nPhone/WhatsApp: ${phone}\nCategory: ${cat}\nDiscipline/Institution: ${disc}\n\nMessage:\n${msg}`);
+            window.location.href = `mailto:${activeData.contactEmail}?subject=${subject}&body=${body}`;
+
+            document.getElementById('contact-form-box').classList.add('hidden');
+            document.getElementById('contact-success-box').classList.remove('hidden');
+        }
+
+        function resetContactForm() {
+            document.getElementById('contact-success-box').classList.add('hidden');
+            document.getElementById('contact-form-box').classList.remove('hidden');
+        }
+
+        // --- BUILT-IN WEBSITE CONTENT MANAGER FUNCTIONS ---
+        function openAdminModal() {
+            document.getElementById('admin-pin-input').value = '';
+            document.getElementById('admin-pin-error').classList.add('hidden');
+            document.getElementById('admin-pin-step').classList.remove('hidden');
+            document.getElementById('admin-edit-step').classList.add('hidden');
+            document.getElementById('admin-modal').classList.remove('hidden');
+        }
+
+        function closeAdminModal() {
+            document.getElementById('admin-modal').classList.add('hidden');
+        }
+
+        function verifyAdminPin() {
+            const pin = document.getElementById('admin-pin-input').value.trim();
+            if (pin === SITE_DATA.adminPin) {
+                document.getElementById('admin-pin-step').classList.add('hidden');
+                document.getElementById('admin-edit-step').classList.remove('hidden');
+                populateAdminLists();
+            } else {
+                document.getElementById('admin-pin-error').classList.remove('hidden');
+            }
+        }
+
+        function populateAdminLists() {
+            document.getElementById('edit-leader-name').value = activeData.leaderName;
+            document.getElementById('edit-leader-title').value = activeData.leaderTitle;
+            document.getElementById('edit-office-address').value = activeData.officeAddress;
+            document.getElementById('edit-contact-email').value = activeData.contactEmail;
+            document.getElementById('edit-welcome-message').value = activeData.welcomeMessage;
+
+            document.getElementById('admin-aims-list').innerHTML = activeData.aims.map((a, i) => `
+                <div class="flex items-center justify-between bg-white px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs">
+                    <span class="font-semibold text-slate-800 truncate pr-2">${a.title}</span>
+                    <button onclick="removeAim(${i})" class="px-2.5 py-1 rounded-lg bg-red-50 hover:bg-red-100 text-red-600 font-bold shrink-0">Remove</button>
+                </div>
+            `).join('');
+
+            document.getElementById('admin-programs-list').innerHTML = activeData.programs.map((p, i) => `
+                <div class="flex items-center justify-between bg-white px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs">
+                    <span class="font-semibold text-slate-800 truncate pr-2">${p.title}</span>
+                    <button onclick="removeProgram(${i})" class="px-2.5 py-1 rounded-lg bg-red-50 hover:bg-red-100 text-red-600 font-bold shrink-0">Remove</button>
+                </div>
+            `).join('');
+
+            document.getElementById('admin-events-list').innerHTML = activeData.events.map((ev, i) => `
+                <div class="flex items-center justify-between bg-white px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs">
+                    <span class="font-semibold text-slate-800 truncate pr-2">${ev.date} • ${ev.title}</span>
+                    <button onclick="removeEvent(${i})" class="px-2.5 py-1 rounded-lg bg-red-50 hover:bg-red-100 text-red-600 font-bold shrink-0">Remove</button>
+                </div>
+            `).join('');
+        }
+
+        function addNewAim() {
+            const title = document.getElementById('new-aim-title').value.trim();
+            const desc = document.getElementById('new-aim-desc').value.trim();
+            if (!title || !desc) return;
+            activeData.aims.push({ title, desc });
+            document.getElementById('new-aim-title').value = '';
+            document.getElementById('new-aim-desc').value = '';
+            populateAdminLists();
+        }
+
+        function removeAim(index) {
+            activeData.aims.splice(index, 1);
+            populateAdminLists();
+        }
+
+        function addNewProgram() {
+            const title = document.getElementById('new-prog-title').value.trim();
+            const tag = document.getElementById('new-prog-tag').value.trim() || "APWEN Kano Initiative";
+            const desc = document.getElementById('new-prog-desc').value.trim();
+            if (!title || !desc) return;
+            activeData.programs.push({ title, tag, desc });
+            document.getElementById('new-prog-title').value = '';
+            document.getElementById('new-prog-tag').value = '';
+            document.getElementById('new-prog-desc').value = '';
+            populateAdminLists();
+        }
+
+        function removeProgram(index) {
+            activeData.programs.splice(index, 1);
+            populateAdminLists();
+        }
+
+        function addNewEvent() {
+            const date = document.getElementById('new-event-date').value.trim();
+            const title = document.getElementById('new-event-title').value.trim();
+            const venue = document.getElementById('new-event-venue').value.trim() || "Kano State Secretariat";
+            if (!date || !title) return;
+            activeData.events.push({ date, title, venue });
+            document.getElementById('new-event-date').value = '';
+            document.getElementById('new-event-title').value = '';
+            document.getElementById('new-event-venue').value = '';
+            populateAdminLists();
+        }
+
+        function removeEvent(index) {
+            activeData.events.splice(index, 1);
+            populateAdminLists();
+        }
+
+        function saveAllAdminChanges() {
+            activeData.leaderName = document.getElementById('edit-leader-name').value.trim() || SITE_DATA.leaderName;
+            activeData.leaderTitle = document.getElementById('edit-leader-title').value.trim() || SITE_DATA.leaderTitle;
+            activeData.officeAddress = document.getElementById('edit-office-address').value.trim() || SITE_DATA.officeAddress;
+            activeData.contactEmail = document.getElementById('edit-contact-email').value.trim() || SITE_DATA.contactEmail;
+            activeData.welcomeMessage = document.getElementById('edit-welcome-message').value.trim() || SITE_DATA.welcomeMessage;
+
+            try {
+                localStorage.setItem('apwen_kano_full_data_v2', JSON.stringify(activeData));
+            } catch (e) {}
+
+            renderAllContent();
+            closeAdminModal();
+        }
+
+        function resetAllDefaults() {
+            try { localStorage.removeItem('apwen_kano_full_data_v2'); } catch (e) {}
+            activeData = JSON.parse(JSON.stringify(SITE_DATA));
+            renderAllContent();
+            closeAdminModal();
+        }
+
+        function copyUpdatedSiteData() {
+            const codeString = `const SITE_DATA = ${JSON.stringify(activeData, null, 4)};`;
+            const temp = document.createElement('textarea');
+            temp.value = codeString;
+            document.body.appendChild(temp);
+            temp.select();
+            document.execCommand('copy');
+            document.body.removeChild(temp);
+
+            const label = document.getElementById('copy-data-label');
+            label.textContent = "Copied! Paste into index.html";
+            setTimeout(() => { label.textContent = "Copy Updated SITE_DATA Code"; }, 2500);
+        }
+
+        // Initialize on Load & Resize
+        window.addEventListener('load', () => {
+            renderAllContent();
+            updateNavIndicator('home');
+            heroTimer = setInterval(() => goToHeroSlide(heroSlideIdx + 1), 6000);
+        });
+
+        window.addEventListener('resize', () => {
+            updateNavIndicator(SECTIONS[currentSectionIndex]);
+        });
+    </script>
+</body>
+</html>
